@@ -5,11 +5,11 @@ namespace App\Jobs;
 use App\Models\Book;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Foundation\Bus\Dispatchable;
 
 class UpdateAuthorLastBookTitle implements ShouldQueue
 {
-    use Queueable;
+    use Dispatchable;
 
     protected $book;
 

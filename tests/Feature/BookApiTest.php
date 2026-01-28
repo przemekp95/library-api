@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,9 +17,10 @@ class BookApiTest extends TestCase
      */
     public function test_create_book(): void
     {
+        $user = User::factory()->create();
         $authors = Author::factory(3)->create();
 
-        $response = $this->postJson('/api/books', [
+        $response = $this->actingAs($user, 'sanctum')->postJson('/api/books', [
             'title' => 'Test Book',
             'author_ids' => $authors->pluck('id')->toArray()
         ]);
@@ -43,11 +45,12 @@ class BookApiTest extends TestCase
      */
     public function test_delete_book(): void
     {
+        $user = User::factory()->create();
         $authors = Author::factory(2)->create();
         $book = Book::factory()->create();
         $book->authors()->attach($authors);
 
-        $response = $this->deleteJson("/api/books/{$book->id}");
+        $response = $this->actingAs($user, 'sanctum')->deleteJson("/api/books/{$book->id}");
 
         $response->assertStatus(204);
 
