@@ -44,7 +44,6 @@ jobs:
         DB_PASSWORD: root
       run: |
         php artisan migrate:fresh --seed --force
-        php artisan config:cache
 
     - name: Run tests
       env:
