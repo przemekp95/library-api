@@ -21,7 +21,8 @@ API for managing a library with the following features:
 - PHP 8.3+
 - Composer
 - MySQL 8.0+
-- Node.js (optional, for frontend)
+
+This project is API-only. No frontend or Node.js tooling is required.
 
 ### Installation
 
