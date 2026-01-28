@@ -2,6 +2,62 @@
 
 Recruitment task - Laravel REST API for managing books and authors.
 
+## Requirements
+
+The following list describes the minimal, required scope of functionality for this project based on the recruitment task requirements.
+
+### Database
+- Relational database used for persistent storage
+- Migrations for authors, books and author_book tables
+- Proper many-to-many relationship with foreign keys
+- Database used in application logic and automated tests
+
+### API Endpoints
+- GET /api/books
+- GET /api/books/{id}
+- POST /api/books
+- PUT /api/books/{id}
+- DELETE /api/books/{id}
+- GET /api/authors
+- GET /api/authors/{id}
+
+### API Contract
+- JSON responses only
+- Proper HTTP status codes
+- Eager loading of relations
+- Pagination for list endpoints
+
+### Tests
+- Feature (HTTP) tests
+- Tests for:
+  - POST /api/books
+  - DELETE /api/books/{id}
+- Tests use RefreshDatabase and factories
+- HTTP response and database assertions
+
+### Authentication (optional)
+- Sanctum used to protect POST /api/books
+- Guest request returns 401 Unauthorized
+- Authenticated request returns 201 Created
+
+### Search
+- GET /api/authors?search=
+- Filters authors by related book title
+- Implemented using relationship query (whereHas)
+- Paginated results
+
+### CI/CD
+- GitHub Actions workflow
+- Runs on push / pull request
+- Installs dependencies
+- Runs migrations
+- Executes automated tests
+
+### Git Workflow
+- Git Flow used
+- Feature branches merged into develop
+- Final merge from develop to main
+
 ## Description
 
 API for managing a library with the following features:
