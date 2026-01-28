@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
-use App\Jobs\UpdateAuthorLastBookTitle;
+use App\Http\Requests\BookRequest;
+use App\Services\BookService;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
@@ -23,17 +22,11 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request)
+    public function store(BookRequest $request, BookService $bookService)
     {
-        $book = Book::create([
-            'title' => $request->title
-        ]);
+        $book = $bookService->createBook($request->validated());
 
-        $book->authors()->attach($request->author_ids);
-
-        UpdateAuthorLastBookTitle::dispatch($book);
-
-        return response()->json($book->load('authors'), 201);
+        return response()->json($book, 201);
     }
 
     /**
@@ -48,26 +41,21 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBookRequest $request, string $id)
+    public function update(BookRequest $request, string $id, BookService $bookService)
     {
         $book = Book::findOrFail($id);
-        $book->update([
-            'title' => $request->title
-        ]);
+        $book = $bookService->updateBook($book, $request->validated());
 
-        $book->authors()->sync($request->author_ids);
-
-        return response()->json($book->load('authors'));
+        return response()->json($book);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, BookService $bookService)
     {
         $book = Book::findOrFail($id);
-        $book->authors()->detach();
-        $book->delete();
+        $bookService->deleteBook($book);
 
         return response()->json(null, 204);
     }

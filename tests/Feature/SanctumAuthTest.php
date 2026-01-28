@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Author;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,10 +30,11 @@ class SanctumAuthTest extends TestCase
     public function test_authenticated_user_can_create_book(): void
     {
         $user = User::factory()->create();
+        $authors = Author::factory(2)->create();
 
         $response = $this->actingAs($user, 'sanctum')->postJson('/api/books', [
             'title' => 'Test Book',
-            'author_ids' => []
+            'author_ids' => $authors->pluck('id')->toArray()
         ]);
 
         $response->assertStatus(201);

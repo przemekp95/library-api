@@ -5,11 +5,11 @@ namespace App\Jobs;
 use App\Models\Book;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Foundation\Bus\Dispatchable;
 
 class UpdateAuthorLastBookTitle implements ShouldQueue
 {
-    use Queueable;
+    use Dispatchable;
 
     protected $book;
 
@@ -25,6 +25,14 @@ class UpdateAuthorLastBookTitle implements ShouldQueue
      * Execute the job.
      */
     public function handle(): void
+    {
+        $this->updateAuthorsLastBookTitle();
+    }
+
+    /**
+     * Update last book title for all authors of the book
+     */
+    private function updateAuthorsLastBookTitle(): void
     {
         $this->book->authors->each(function ($author) {
             $author->update([
