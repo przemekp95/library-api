@@ -16,10 +16,7 @@ class AuthorController extends Controller
         $query = Author::with('books');
 
         if ($request->has('search')) {
-            $search = $request->input('search');
-            $query->whereHas('books', function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%");
-            });
+            $query->searchByBookTitle($request->input('search'));
         }
 
         $authors = $query->paginate(10);

@@ -20,4 +20,14 @@ class Author extends Model
     {
         return $this->belongsToMany(Book::class);
     }
+
+    /**
+     * Scope a query to search authors by book title
+     */
+    public function scopeSearchByBookTitle($query, $search)
+    {
+        return $query->whereHas('books', function ($q) use ($search) {
+            $q->where('title', 'like', "%{$search}%");
+        });
+    }
 }
