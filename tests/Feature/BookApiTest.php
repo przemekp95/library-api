@@ -30,13 +30,16 @@ class BookApiTest extends TestCase
                 'title' => 'Test Book'
             ]);
 
+        $bookId = $response->json('id');
+
         $this->assertDatabaseHas('books', [
+            'id' => $bookId,
             'title' => 'Test Book'
         ]);
 
         $this->assertDatabaseHas('author_book', [
             'author_id' => $authors->first()->id,
-            'book_id' => 1
+            'book_id' => $bookId
         ]);
     }
 
