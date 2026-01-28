@@ -1,6 +1,6 @@
-# Library API
+# Books & Authors API
 
-Simple Laravel API for managing a library with books and authors.
+Recruitment task - Laravel REST API for managing books and authors.
 
 ## Description
 
