@@ -27,7 +27,7 @@ API for managing a library with the following features:
 
 1. Clone the repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/przemekp95/library-api.git
 cd library-api
 ```
 
